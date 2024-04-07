@@ -25,7 +25,7 @@ def main():
     # creates a new consumer and subscribes to your topic
     consumer = Consumer(config)
     consumer.subscribe([topic])
-    consumer.assign([TopicPartition(topic, 1, 5)]) #if we want to specify the partition to consume from, and the offset value
+    consumer.assign([TopicPartition(topic, 1, 11)]) #if we want to specify the partition to consume from, and the offset value
     try:
         while True:
         # consumer polls the topic and prints any incoming messages
@@ -43,15 +43,21 @@ def main():
                 # print(end_offsets)
             # else:
             #     print("No message found")
+            # elif msg is None:
+            #     # Retrieve the latest committed offsets for the consumer group
+            #     partitions = consumer.assignment()
+
+                # Print the latest committed offsets
+                # for partition in partitions:
+                #     print(partition)
+                    # topic_partition = TopicPartition(partition.topic, partition.partition)
+                    # last_committed_offset = consumer.position(topic_partition)
+                    # print(f"Last committed offset for partition {partition}: {last_committed_offset}")
+
+                # break
     except KeyboardInterrupt:
         pass
     finally:
-        # Retrieve the latest committed offsets for the consumer group
-        committed_offsets = consumer.list_consumer_group_offsets('my_consumer_group')
-
-        # Print the latest committed offsets
-        for topic_partition, offset in committed_offsets.items():
-            print(f"Partition {topic_partition.topic}-{topic_partition.partition}: Committed Offset {offset.offset}")
         # closes the consumer connection
         consumer.close()
 

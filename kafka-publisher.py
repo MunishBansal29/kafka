@@ -3,7 +3,7 @@
 ## pip3 install confluent-kafka
 
 from confluent_kafka import Producer, Consumer
-
+from confluent_kafka import SerializingProducer
 
 def read_config():
   # reads the client configuration from client.properties
@@ -28,7 +28,7 @@ def main():
   # produces a sample message
   key = "key"
   value = "value"
-  producer.produce(topic, key=key, value=value)
+  producer.produce(topic, key=key, value=value) #it can also specify which partition of that topic it should write to, as an optinal parameter
   print(f"Produced message to topic {topic}: key = {key:12} value = {value:12}")
   
   # send any outstanding or buffered messages to the Kafka broker
